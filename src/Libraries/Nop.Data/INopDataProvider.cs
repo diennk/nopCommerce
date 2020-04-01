@@ -156,13 +156,7 @@ namespace Nop.Data
         /// <typeparam name="TEntity">Type of entity</typeparam>
         /// <returns>Mapped entity descriptor</returns>
         EntityDescriptor GetEntityDescriptor<TEntity>() where TEntity : BaseEntity;
-
-        /// <summary>
-        /// Gets a value indicating whether mini profiler enabled
-        /// </summary>
-        /// <returns>Returns true if profiling is enabled.</returns>
-        bool IsProfilingEnabled();
-
+        
         /// <summary>
         /// Executes command using System.Data.CommandType.StoredProcedure command type and
         /// returns results as collection of values of specified type

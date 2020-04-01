@@ -188,18 +188,6 @@ namespace Nop.Web.Framework.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// Adds middleware for profiling HTTP requests.
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseNopMiniProfiler(this IApplicationBuilder application)
-        {
-            application.UseMiniProfiler();
-
-            if(EngineContext.Current.Resolve<INopDataProvider>() is INopDataProvider dataProvider)
-                LinqToDB.Common.Configuration.AvoidSpecificDataProviderAPI = dataProvider.IsProfilingEnabled();
-        }
-
-        /// <summary>
         /// Configure middleware for dynamically compressing HTTP responses
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>

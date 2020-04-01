@@ -38,7 +38,7 @@ namespace Nop.Web.Framework.Infrastructure
         public void Configure(IApplicationBuilder application)
         {
             //use MiniProfiler
-            application.UseNopMiniProfiler();
+            application.UseMiniProfiler();
 
             //use WebMarkupMin
             application.UseNopWebMarkupMin();
