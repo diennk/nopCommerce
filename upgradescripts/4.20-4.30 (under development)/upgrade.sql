@@ -574,6 +574,18 @@ set @resources='
   <LocaleResource Name="ActivityLog.UploadNewIcons">
     <Value>Uploaded a new favicon and app icons for store (ID = ''{0}'')</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Languages.XmlFile">
+    <Value>XML file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.ProductTags.BackToList">
+    <Value>back to product tags list</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.ProductTags.Updated">
+    <Value>The product tag has been updated successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.ProductTags.Deleted">
+    <Value>The product tag has been deleted successfully.</Value>
+  </LocaleResource>
 </Language>
 '
 
@@ -2672,4 +2684,51 @@ GO
 UPDATE [Setting]
 SET [Value] = N'public,max-age=31536000'
 WHERE [Name] = N'commonsettings.StaticFilesCacheControl'
+GO
+
+--delete indexe
+IF EXISTS (SELECT 1 from sys.indexes WHERE [NAME]=N'IX_RewardPointsHistory_OrderId' and object_id=object_id(N'[RewardPointsHistory]'))
+BEGIN
+	DROP INDEX [IX_RewardPointsHistory_OrderId] ON [RewardPointsHistory]
+END
+GO
+
+--delete FK
+IF EXISTS (SELECT *  FROM sys.foreign_keys  WHERE object_id = OBJECT_ID(N'FK_RewardPointsHistory_OrderId_OrderId') AND parent_object_id = OBJECT_ID(N'RewardPointsHistory'))
+	ALTER TABLE [RewardPointsHistory] DROP CONSTRAINT FK_RewardPointsHistory_OrderId_OrderId
+GO
+
+--delete FK
+IF EXISTS (SELECT *  FROM sys.foreign_keys  WHERE object_id = OBJECT_ID(N'FK_RewardPointsHistory_Order_OrderId') AND parent_object_id = OBJECT_ID(N'RewardPointsHistory'))
+	ALTER TABLE [RewardPointsHistory] DROP CONSTRAINT FK_RewardPointsHistory_Order_OrderId
+GO
+
+--delete FK
+IF EXISTS (SELECT *  FROM sys.foreign_keys  WHERE object_id = OBJECT_ID(N'FK_RewardPointsHistory_OrderId_Order_Id') AND parent_object_id = OBJECT_ID(N'RewardPointsHistory'))
+	ALTER TABLE [RewardPointsHistory] DROP CONSTRAINT FK_RewardPointsHistory_OrderId_Order_Id
+GO
+
+--delete column
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[RewardPointsHistory]') and NAME='OrderId')
+BEGIN
+	ALTER TABLE [RewardPointsHistory] DROP COLUMN OrderId
+END
+GO
+
+--delete setting
+IF EXISTS (SELECT 1 FROM [Setting] WHERE [Name] = N'commonsettings.usestoredprocedureforloadingcategories')
+BEGIN
+    DELETE FROM [Setting]
+    WHERE [Name] = N'commonsettings.usestoredprocedureforloadingcategories'
+END
+GO
+
+--drop the "CategoryLoadAllPaged" stored procedure
+IF EXISTS (SELECT 1 FROM sys.objects WHERE OBJECT_ID = OBJECT_ID(N'[CategoryLoadAllPaged]') AND OBJECTPROPERTY(OBJECT_ID, N'IsProcedure') = 1)
+    DROP PROCEDURE [CategoryLoadAllPaged];
+GO
+
+--drop the "LanguagePackImport" stored procedure
+IF EXISTS (SELECT 1 FROM sys.objects WHERE OBJECT_ID = OBJECT_ID(N'[LanguagePackImport]') AND OBJECTPROPERTY(OBJECT_ID, N'IsProcedure') = 1)
+    DROP PROCEDURE [LanguagePackImport];
 GO
