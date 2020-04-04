@@ -1,6 +1,9 @@
 ﻿/* COMMON */
+.content-wrapper{
+    padding-top : 50px
+}
 .content {
-    padding-bottom: 55px;
+  padding-bottom: 55px;
 }
 ul, ol {
     margin-bottom: 0;
@@ -776,6 +779,8 @@ input[type="text"].k-input {
 /* HEADER */
 .main-header {
     max-height: 150px;
+    position : fixed;
+    width : 100%
 }
 .main-header .logo {
     padding: 0;
@@ -801,8 +806,11 @@ input[type="text"].k-input {
 }
 
 /* SIDE BAR */
+.main-sidebar{
+    position : fixed
+}
 .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header {
-    white-space: normal;
+  white-space: normal;
 }
 .sidebar-menu .treeview-menu>li>a {
     padding: 5px 15px;
